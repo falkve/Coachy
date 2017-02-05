@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{team.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+  <ion-img width="282" height="200" src="assets/images/football.png"></ion-img>
+  <ion-buttons>
+    <button *ngIf="noPositions" ion-button round (click)="addPositions()">Add positions</button>
+    <button *ngIf="noPlayers" ion-button round (click)="addPlayers()">Add players</button>
+  </ion-buttons>
+</ion-content>
+
+
+
+

@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Game</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col width-50 text-right=""><h1>{{currentTeam.name}} -</h1></ion-col>
+      <ion-col width-50 text-left=""><h1>{{currentHistoryGame.opponent}}</h1></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-100 text-center=""><h3>Match played at: {{formatDate(currentHistoryGame.startTime)}}</h3></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-50 text-right=""><h2>{{currentHistoryGame.goals}}&nbsp;&nbsp;&nbsp;&nbsp; -</h2></ion-col>
+      <ion-col width-50 text-left=""><h2>&nbsp;&nbsp;&nbsp;&nbsp;{{currentHistoryGame.goalsOpponent}}</h2></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-100 ></ion-col>
+    </ion-row>
+
+    <ion-item *ngFor="let period of currentHistoryGame.historyPeriods">
+      <ion-row>
+        <ion-col width-100 text-center=""><h2>Period: {{period.period}}</h2></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-50 text-right=""><h3>{{period.goals}}&nbsp;&nbsp;&nbsp;&nbsp; -</h3></ion-col>
+        <ion-col width-50 text-left=""><h3>&nbsp;&nbsp;&nbsp;&nbsp;{{period.goalsOpponent}}</h3></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-50 text-right=""><h3>{{formatTime(period.startTime)}}&nbsp;&nbsp;&nbsp;&nbsp; -</h3></ion-col>
+        <ion-col width-50 text-left=""><h3>&nbsp;&nbsp;&nbsp;&nbsp;{{formatTime(period.endTime)}}</h3></ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-grid>
+
+</ion-content>
+
+
+

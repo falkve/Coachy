@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Game</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <button *ngIf="currentGame.startTime == 0" ion-button block color="secondary" (click)="startGame()">Start Match</button>
+  <ion-grid *ngIf="currentGame.startTime != 0">
+    <ion-row ngClass="clock">
+      <ion-col width-100 text-center=""><h2>{{currentTime}}</h2></ion-col>
+    </ion-row>
+    <ion-row *ngIf="currentGame.period != null">
+      <ion-col width-100 text-center=""><h2>Period: {{currentGame.period.period}}</h2></ion-col>
+    </ion-row>
+    <ion-row *ngIf="currentGame.period == null">
+      <ion-col width-100 text-center=""><h2>PAUS</h2></ion-col>
+    </ion-row>
+    <ion-row *ngIf="currentGame.endTime != 0">
+      <ion-col width-100 text-center=""><h2>Game ended</h2></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-50 text-right=""><h2>{{currentTeam.name}} -</h2></ion-col>
+      <ion-col width-50 text-left=""><h2>{{currentGame.opponent}}</h2></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-50 text-right=""><h1>{{currentGame.goals}}&nbsp;&nbsp;&nbsp;&nbsp; -</h1></ion-col>
+      <ion-col width-50 text-left=""><h1>&nbsp;&nbsp;&nbsp;&nbsp;{{currentGame.goalsOpponent}}</h1></ion-col>
+    </ion-row>
+    <ion-row *ngIf="currentGame.endTime==0">
+      <ion-col width-50 text-right="">
+        <ion-buttons >
+          <button ion-button color="secondary" round (click)="addGoal(currentTeam.name)" [attr.disabled]="currentGame.period==null?'':null">Goal!</button>
+        </ion-buttons>
+      </ion-col>
+      <ion-col width-50 text-left="">
+        <ion-buttons>
+          <button ion-button color="secondary" round (click)="addGoal(currentGame.opponent)" [attr.disabled]="currentGame.period==null?'':null" >Goal!</button>
+        </ion-buttons>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-100 text-right=""></ion-col>
+    </ion-row>
+    <ion-row *ngIf="currentGame.endTime==0">
+      <ion-col width-50 text-right="" *ngIf="currentGame.period != null">
+        <ion-buttons >
+          <button ion-button color="default" round (click)="endPeriod()">End period</button>
+        </ion-buttons>
+      </ion-col>
+      <ion-col width-50 text-right="" *ngIf="currentGame.period == null">
+        <ion-buttons >
+          <button ion-button color="default" round (click)="startPeriod()">Start period</button>
+        </ion-buttons>
+      </ion-col>
+      <ion-col width-50 text-left="">
+        <ion-buttons>
+          <button ion-button color="danger" round (click)="endGame()">End game</button>
+        </ion-buttons>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+
+</ion-content>
+
+
+

@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Add Team</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+  <form>
+
+  <ion-list>
+    <ion-item>
+      <ion-label color="primary" stacked>Name</ion-label>
+      <ion-input placeholder="" name="name" [(ngModel)]="name" autofocus></ion-input>
+    </ion-item>
+
+  </ion-list>
+  <ion-buttons>
+    <button ion-button round (click)="addTeam()">Add</button>
+    <button ion-button round (click)="close()">Close</button>
+  </ion-buttons>
+  </form>
+
+
+</ion-content>
+
+
+

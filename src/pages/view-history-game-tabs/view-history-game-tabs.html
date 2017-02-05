@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{team.name}} - {{currentHistoryGame.opponent}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-tabs #historyGameTabs>
+  <!--<ion-tab [root]="playersRoot" tabTitle="Choose your team" tabIcon="swap"></ion-tab>-->
+  <ion-tab [root]="gameRoot" tabTitle="Match data" tabIcon="stats"></ion-tab>
+  <ion-tab [root]="historyPlayersPage" tabTitle="Player data" tabIcon="stats"></ion-tab>
+</ion-tabs>

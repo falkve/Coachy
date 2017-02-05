@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{team.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-tabs>
+  <!--<ion-tab [root]="playersRoot" tabTitle="Choose your team" tabIcon="swap"></ion-tab>-->
+  <ion-tab [root]="playerRoot" tabTitle="Add players" tabIcon="person-add"></ion-tab>
+  <ion-tab [root]="positionRoot" tabTitle="Add positions" tabIcon="git-pull-request"></ion-tab>
+
+
+</ion-tabs>

@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Archived matches - {{team.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+
+<ion-content>
+  <ion-list>
+    <ion-item-sliding *ngFor="let game of historyGames | async">
+      <button ion-item (click)="goToGame(game)">
+        <ion-avatar item-left >
+          <img src="assets/images/game.png">
+        </ion-avatar>
+        <h2>{{game.opponent}} ( {{game.goals}} - {{game.goalsOpponent}} ) </h2>
+      </button>
+
+      <ion-item-options icon-left side="right">
+        <button ion-button color="danger" (click)="deleteGame(game)">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

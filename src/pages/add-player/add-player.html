@@ -1,0 +1,35 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>Add Player</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+  <form>
+
+  <ion-list>
+    <ion-item>
+      <ion-label color="primary" stacked>Player name</ion-label>
+      <ion-input placeholder="" name="name" [(ngModel)]="name" autofocus></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="primary" stacked>Shirt number</ion-label>
+      <ion-input type="number" placeholder="" name="number" [(ngModel)]="number"></ion-input>
+    </ion-item>
+
+  </ion-list>
+  <ion-buttons>
+    <button ion-button round (click)="addPlayer()">Add</button>
+    <button ion-button round (click)="close()">Close</button>
+  </ion-buttons>
+  </form>
+
+
+</ion-content>
+
+
+

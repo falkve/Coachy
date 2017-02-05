@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{team.name}} - {{game.opponent}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      Players on field
+    </ion-list-header>
+    <ion-item button *ngFor="let gamePlayer of gamePlayers | async" (click)="changePosition(gamePlayer)" [hidden]="gamePlayer.position.id=='Bench' || gamePlayer.position.id=='GoalK' ">
+        <ion-avatar item-left *ngIf="gamePlayer.position.id != 'GoalK'">
+          <img src="assets/icon/apple-icon.png">
+        </ion-avatar>
+        <ion-avatar item-left *ngIf="gamePlayer.position.id == 'GoalK'">
+          <img src="assets/images/goalkeeper.png">
+        </ion-avatar>
+        <h2>{{gamePlayer.player.name}} ({{gamePlayer.player.number}})</h2>
+        <h3>{{gamePlayer.position.name}} {{calcTime(gamePlayer.position.startTime)}}</h3>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+  <ion-list-header>
+    Goalkeeper
+  </ion-list-header>
+  <ion-item button *ngFor="let gamePlayer of gamePlayers  | async" (click)="changePosition(gamePlayer)" [hidden]="gamePlayer.position.id!='GoalK'">
+    <ion-avatar item-left *ngIf="gamePlayer.position.id != 'GoalK'">
+      <img src="assets/icon/apple-icon.png">
+    </ion-avatar>
+    <ion-avatar item-left *ngIf="gamePlayer.position.id == 'GoalK'">
+      <img src="assets/images/goalkeeper.png">
+    </ion-avatar>
+    <h2>{{gamePlayer.player.name}} ({{gamePlayer.player.number}})</h2>
+    <h3>{{gamePlayer.position.name}} {{calcTime(gamePlayer.position.startTime)}}</h3>
+  </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      Players on bench
+    </ion-list-header>
+    <ion-item button *ngFor="let gamePlayer of gamePlayers  | async" [hidden]="gamePlayer.position.id!='Bench'">
+        <ion-avatar item-left>
+          <img src="assets/icon/apple-icon.png">
+        </ion-avatar>
+        <h2>{{gamePlayer.player.name}} ({{gamePlayer.player.number}})</h2>
+        <h3>{{gamePlayer.position.name}} {{calcTime(gamePlayer.position.startTime)}}</h3>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-fab top right>
+  <button ion-fab color="light"><ion-icon name="arrow-dropleft"></ion-icon></button>
+  <ion-fab-list side="top">
+    <button ion-fab ><ion-icon name="add"></ion-icon></button>
+  </ion-fab-list>
+</ion-fab>
+
+
+
