@@ -15,7 +15,7 @@
 
 <ion-content>
   <ion-list>
-      <ion-item button (click)="showPlayerStat(gamePlayer)" ion-item *ngFor="let gamePlayer of currentGamePlayers">
+      <ion-item button (click)="showPlayerStat(gamePlayer)" ion-item *ngFor="let gamePlayer of currentGamePlayers | async">
         <ion-avatar item-left>
           <img src="assets/icon/apple-icon.png">
         </ion-avatar>

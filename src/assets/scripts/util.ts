@@ -1,10 +1,8 @@
-import {Game} from "./gametypes";
-import {Player} from "../../../www/assets/scripts/playertypes";
+import {Game, Player} from "./gametypes";
 import {GamePlayer, ActiveGamePosition, Period} from "../../../www/assets/scripts/gametypes";
 /**
  * Created by vonfalk on 2017-01-04.
  */
-
 
 
 export class Util{
@@ -32,13 +30,13 @@ export class Util{
         for (let period of game.periods) {
           let historyPeriod = Util.clonePeriod(period);
           newGame.periods.push(historyPeriod);
+        }
       }
-    }
-    if(game.players != null){
-      for (let gamePlayer of game.players) {
-        let historyPlayer = Util.cloneGamePlayer(gamePlayer);
-        newGame.players.push(historyPlayer);
-      }
+      if(game.players != null){
+        for (let gamePlayer of game.players) {
+          let historyPlayer = Util.cloneGamePlayer(gamePlayer);
+          newGame.players.push(historyPlayer);
+        }
     }
 
     return newGame;
@@ -56,6 +54,13 @@ export class Util{
   public static clonePlayer(player){
     let newPlayer = new Player(player.name, player.number);
     newPlayer.id = player.id;
+    if(player.positions != null){
+      newPlayer.positions = new Map<string, number>();
+      for (var key in player.positions) {
+        var value = player.positions[key];
+        newPlayer.positions.set(key, value);
+      }
+    }
     return newPlayer;
   }
 
@@ -71,7 +76,7 @@ export class Util{
     let newPlayer = Util.clonePlayer(gamePlayer.player);
     let newPosition = Util.cloneActiveGamePosition(gamePlayer.position);
     let newGamePlayer = new GamePlayer(newPlayer, newPosition);
-    //newGamePlayer.id = gamePlayer.id;
+    newGamePlayer.id = gamePlayer.id;
 
     if(gamePlayer.positions != null){
       for (let position of gamePlayer.positions) {

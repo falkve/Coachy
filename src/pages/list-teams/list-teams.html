@@ -5,10 +5,18 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngFor="let team of teams | async" (click)="chooseTeam(team)" style="border: dashed; width: 200px; padding: 10px" margin="10px">
-       <label><b>{{team.name}}</b></label>
-      <ion-img width="150" height="110" src="assets/images/team.jpg"></ion-img>
-  </div>
+
+
+  <ion-list>
+    <ion-item *ngFor="let team of teams | async" (click)="chooseTeam(team)">
+      <ion-thumbnail item-left>
+        <img src="assets/images/team.jpg">
+      </ion-thumbnail>
+      <label><h1>{{team.name}}</h1></label>
+
+    </ion-item>
+  </ion-list>
+
 </ion-content>
 
 <ion-fab bottom right>

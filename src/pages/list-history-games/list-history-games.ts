@@ -25,7 +25,6 @@ export class ListHistoryGamesPage {
 
   goToGame(game){
     this.storageService.setCurrentHistoryGame(game);
-    this.navCtrl.pop();
     this.navCtrl.push(ViewHistoryGameTabsPage);
   }
 

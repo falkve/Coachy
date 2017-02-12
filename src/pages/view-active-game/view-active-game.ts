@@ -26,7 +26,7 @@ export class ViewActiveGamePage {
     //this.sortPlayers();
   }
 
-  sortPlayers(){
+/*  sortPlayers(){
     this.gamePlayers = this.game.players.sort((gamePlayer1,gamePlayer2)=>{
 
 
@@ -40,7 +40,7 @@ export class ViewActiveGamePage {
 
       return 0;
     });
-  }
+  }*/
 
   changePosition(gamePlayer){
     if(gamePlayer.position.id == 'GoalK'){

@@ -15,7 +15,7 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item button (click)="changePosition(gamePlayer)" *ngFor="let gamePlayer of currentGame.players" [hidden]="gamePlayer.position.id!='Bench'">
+    <ion-item button (click)="changePosition(gamePlayer)" *ngFor="let gamePlayer of currentPlayers | async" [hidden]="gamePlayer.position.id!='Bench'">
         <ion-avatar item-left>
           <img src="assets/icon/apple-icon.png">
         </ion-avatar>

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import {AngularFire, FirebaseListObservable} from "angularfire2";
-import {Player} from "../../www/assets/scripts/playertypes";
-import {GamePosition, Team, Game, GamePlayer} from "../../www/assets/scripts/gametypes";
 import {Util} from "../../www/assets/scripts/util";
 import * as firebase from "firebase";
+import {Player, GamePosition, Team, Game, GamePlayer} from "../assets/scripts/gametypes";
 
 /*
   Generated class for the StorageService provider.
@@ -81,13 +80,14 @@ export class StorageService {
   }
 
   public loadCurrentGamePlayers(teamId, currentGameId, callbackFunc){
-    firebase.database().ref('/'+teamId+'/activegames/' + currentGameId + '/players').orderByChild('name').once('value', callbackFunc, this);
+    firebase.database().ref('/'+teamId+'/activeplayers/' + currentGameId + '/players').orderByChild('name').once('value', callbackFunc, this);
   }
 
 
   getPlayers(){
     return this.players;
   }
+
   addPlayer(player){
     this.players.push(player).then(ref => {
       player.id = ref.key;
@@ -133,6 +133,7 @@ export class StorageService {
 
   removeActiveGame(game){
     this.activeGames.remove(game.id);
+    this.af.database.list('/' + this.currentTeam.id + '/activeplayers/' + game.id + '/players').remove();
   }
 
   addHistoryGame(game, callbackFunc){
@@ -151,7 +152,7 @@ export class StorageService {
 
   public setCurrentGame(game){
     this.currentGame = game;
-    this.currentGamePlayers = this.af.database.list('/' + this.currentTeam.id + '/activegames/' + game.id + '/players', {
+    this.currentGamePlayers = this.af.database.list('/' + this.currentTeam.id + '/activeplayers/' + game.id + '/players', {
       query: {
         orderByChild: 'position/startTime'
       }
@@ -176,15 +177,18 @@ export class StorageService {
   }
 
 
-  /*addCurrentGamePlayer(gamePlayer, callbackFunc){
-   this.currentGamePlayers.push(gamePlayer).then(ref => {
-   gamePlayer.id = ref.key;
-   this.currentGamePlayers.update(gamePlayer.id, gamePlayer).then(callbackFunc);
-   });
-   }*/
+  addCurrentGamePlayer(game, gamePlayer, callbackFunc){
+    let gamePlayerCopy = Util.cloneGamePlayer(gamePlayer);
+    let ref = firebase.database().ref('/'+this.currentTeam.id+'/activeplayers/' + game.id + '/players');
+    let refId = ref.push();
+    gamePlayerCopy.id = refId.key;
+    refId.set(gamePlayerCopy).then(callbackFunc);
+   }
+
   updateCurrentGamePlayer(game, gamePlayer){
     var copy = Util.cloneGamePlayer(gamePlayer);
-    this.currentGamePlayers.update(game.id, copy);
+    console.log(copy.positions);
+    this.getCurrentGamePlayers().update(gamePlayer.id, copy);
   }
 
 

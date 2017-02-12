@@ -13,7 +13,7 @@ export class ListHistoryGamePlayerStatPage {
   currentHistoryGamePlayers;
 
   constructor(public navCtrl: NavController, storageService : StorageService) {
-    this.currentHistoryGamePlayers = null; //storageService.getCurrentHistoryGame();
+    this.currentHistoryGamePlayers = storageService.getCurrentHistoryGame().players;
   }
 
 

@@ -18,7 +18,7 @@
     <ion-list-header>
       {{gamePlayer.name}}
     </ion-list-header>
-    <ion-item button *ngFor="let position of gamePlayer.historyPositions">
+    <ion-item button *ngFor="let position of gamePlayer.positions">
         <ion-avatar item-left [ngSwitch]="position.id">
           <img *ngSwitchCase="'Bench'" src="assets/images/bench.png">
           <img *ngSwitchCase="'GoalK'" src="assets/images/goalkeeper.png">

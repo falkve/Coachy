@@ -20,9 +20,11 @@ export class ChangeGamePositionPage {
 
   player;
   currentGame;
+  currentPlayers;
   constructor(public navCtrl: NavController, private ele: ElementRef, public storageService : StorageService, params: NavParams, public viewCtrl : ViewController) {
     this.player = params.get('player');
     this.currentGame = storageService.getCurrentGame();
+    this.currentPlayers = storageService.getCurrentGamePlayers();
   }
 
 
@@ -34,14 +36,14 @@ export class ChangeGamePositionPage {
       gamePlayer.position.endTime = endTime;
       this.player.position.endTime = endTime;
 
-      if(gamePlayer.historyPositions == null){
-        gamePlayer.historyPositions = new Array<ActiveGamePosition>();
+      if(gamePlayer.positions == null){
+        gamePlayer.positions = new Array<ActiveGamePosition>();
       }
-      if(this.player.historyPositions == null){
-        this.player.historyPositions = new Array<ActiveGamePosition>();
+      if(this.player.positions == null){
+        this.player.positions = new Array<ActiveGamePosition>();
       }
-      gamePlayer.historyPositions.push(Util.cloneActiveGamePosition(gamePlayer.position));
-      this.player.historyPositions.push(Util.cloneActiveGamePosition(this.player.position));
+      gamePlayer.positions.push(Util.cloneActiveGamePosition(gamePlayer.position));
+      this.player.positions.push(Util.cloneActiveGamePosition(this.player.position));
 
 
       let newDate = new Date().getTime();
@@ -57,14 +59,14 @@ export class ChangeGamePositionPage {
     this.player.position = position;
 
 
-    //this.storageService.updateCurrentGamePlayer(this.currentGame, gamePlayer);
-    //this.storageService.updateCurrentGamePlayer(this.currentGame, this.player);
+    this.storageService.updateCurrentGamePlayer(this.currentGame, gamePlayer);
+    this.storageService.updateCurrentGamePlayer(this.currentGame, this.player);
 
-    this.currentGame.players.update(gamePlayer);
+    /*this.currentGame.players.update(gamePlayer);
     this.currentGame.players.update(this.player);
     this.storageService.updateActiveGame(this.currentGame,()=>{
 
-    });
+    });*/
 
 
 

@@ -1,4 +1,3 @@
-import {Player} from "./playertypes";
 /**
  * Created by vonfalk on 2017-01-01.
  */
@@ -20,6 +19,19 @@ export class Game{
     this.opponent = opponent;
     this.periods = new Array<Period>();
     this.players = new Array<GamePlayer>();
+  }
+}
+
+export class Player {
+
+  public id : string;
+  public name: string;
+  public number: number;
+  public positions : Map<string,number>;
+
+  constructor(name: string, number: number) {
+    this.name = name;
+    this.number = number;
   }
 }
 
@@ -65,6 +77,7 @@ export class Team{
 export class GamePlayer{
   public name : string;
   public player : Player;
+  public id : string;
   public position : ActiveGamePosition;
 
   public positions : Array<ActiveGamePosition>;

@@ -43,7 +43,6 @@ export class ListGamesPage {
 
   goToGame(game){
     this.storageService.setCurrentGame(game);
-    this.navCtrl.pop();
     this.navCtrl.push(TabsPage);
   }
 

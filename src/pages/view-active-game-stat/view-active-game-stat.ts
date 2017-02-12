@@ -69,18 +69,12 @@ export class ViewActiveGameStatPage {
   startGame(){
     let date = new Date().getTime();
 
-    /*this.storageService.loadCurrentGamePlayers(this.currentTeam.id, this.currentGame.id, (snapshot)=>{
+    this.storageService.loadCurrentGamePlayers(this.currentTeam.id, this.currentGame.id, (snapshot)=>{
       snapshot.forEach((childSnapshot) => {
         let gamePlayer = childSnapshot.val();
         gamePlayer.position.startTime = date;
-        this.storageService.updateCurrentGamePlayer(gamePlayer);
+        this.storageService.updateCurrentGamePlayer(this.currentGame, gamePlayer);
       });
-    });*/
-
-    for( let i=0; i < this.currentGame.players.length; i++) {
-      this.currentGame.players[i].position.startTime = date;
-    }
-    this.storageService.updateActiveGame(this.currentGame,()=>{
     });
 
 
@@ -105,15 +99,13 @@ export class ViewActiveGameStatPage {
       this.currentGame.players = new Array<GamePlayer>();
     }
 
-/*    this.storageService.loadCurrentGamePlayers(this.currentTeam.id, this.currentGame.id, (snapshot)=>{
+    this.storageService.loadCurrentGamePlayers(this.currentTeam.id, this.currentGame.id, (snapshot)=>{
       snapshot.forEach((childSnapshot) => {
         let gamePlayer = childSnapshot.val();
-        console.log('pushing:' + gamePlayer);
+        gamePlayer.position = null;
         this.currentGame.players.push(gamePlayer);
       });
-    });*/
-
-
+    });
 
     this.storageService.addHistoryGame(this.currentGame, ()=>{
       this.storageService.setCurrentHistoryGame(this.currentGame);
@@ -133,21 +125,21 @@ export class ViewActiveGameStatPage {
     let date = new Date().getTime();
     this.currentGame.period.endTime = date;
 
-    /*this.storageService.loadCurrentGamePlayers(this.currentTeam.id, this.currentGame.id, (snapshot)=>{
+    this.storageService.loadCurrentGamePlayers(this.currentTeam.id, this.currentGame.id, (snapshot)=>{
       snapshot.forEach((childSnapshot) => {
         let gamePlayer = childSnapshot.val();
         gamePlayer.position.endTime = date;
-        if(gamePlayer.historyPositions == null){
-          gamePlayer.historyPositions = new Array<ActiveGamePosition>();
+        if(gamePlayer.positions == null){
+          gamePlayer.positions = new Array<ActiveGamePosition>();
         }
-        gamePlayer.historyPositions.push(Util.cloneActiveGamePosition(gamePlayer.position));
+        gamePlayer.positions.push(Util.cloneActiveGamePosition(gamePlayer.position));
         gamePlayer.position.startTime = null;
         gamePlayer.position.endTime = null;
-        this.storageService.updateCurrentGamePlayer(gamePlayer);
+        this.storageService.updateCurrentGamePlayer(this.currentGame, gamePlayer);
       });
-    });*/
+    });
 
-    for( let i=0; i < this.currentGame.players.length; i++) {
+    /*for( let i=0; i < this.currentGame.players.length; i++) {
       this.currentGame.players[i].position.endTime = date;
       if(this.currentGame.players[i].historyPositions == null) {
         this.currentGame.players[i].historyPositions = new Array<ActiveGamePosition>();
@@ -156,7 +148,7 @@ export class ViewActiveGameStatPage {
       this.currentGame.players[i].historyPositions.push(Util.cloneActiveGamePosition(this.currentGame.players[i].position));
       this.currentGame.players[i].position.startTime = null;
       this.currentGame.players[i].position.endTime = null;
-    }
+    }*/
 
 
 
@@ -177,19 +169,19 @@ export class ViewActiveGameStatPage {
     this.currentGame.period = new Period(this.currentGame.periods.length+1);
     this.currentGame.period.startTime = date;
 
-    for( let i=0; i < this.currentGame.players.length; i++) {
+    /*for( let i=0; i < this.currentGame.players.length; i++) {
       this.currentGame.players[i].position.startTime = date;
       this.currentGame.players[i].position.endTime = null;
-    }
+    }*/
 
-    /*this.storageService.loadCurrentGamePlayers(this.currentTeam.id, this.currentGame.id, (snapshot)=>{
+    this.storageService.loadCurrentGamePlayers(this.currentTeam.id, this.currentGame.id, (snapshot)=>{
       snapshot.forEach((childSnapshot) => {
         let gamePlayer = childSnapshot.val();
         gamePlayer.position.startTime = date;
         gamePlayer.position.endTime = null;
-        this.storageService.updateCurrentGamePlayer(gamePlayer);
+        this.storageService.updateCurrentGamePlayer(this.currentGame,  gamePlayer);
       });
-    });*/
+    });
 
     this.storageService.updateActiveGame(this.currentGame,()=>{
       this.startTimer();

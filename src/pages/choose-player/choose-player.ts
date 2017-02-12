@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { ModalController} from 'ionic-angular';
 import { NavController } from 'ionic-angular';
-import {Team, Game} from "../../assets/scripts/gametypes";
-import {Player} from "../../assets/scripts/playertypes";
+import {Team, Game, Player, GamePosition, GamePlayer} from "../../assets/scripts/gametypes";
 import {ChooseGamePositionPage} from "../choose-game-position/choose-game-position";
 import {StorageService} from "../../providers/storage-service";
 
@@ -14,47 +13,42 @@ import {StorageService} from "../../providers/storage-service";
 export class ChoosePlayersPage {
   team : Team;
   game : Game;
-  players = new Array <Player>();
-  positions;
+  players;
+  positions = new Array <GamePosition>();
+
+  nofPositionsSize = 0;
+  usedPlayers = new Map<string, GamePlayer>();
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,public storageService : StorageService) {
     this.team = storageService.getCurrentTeam();
     this.game = storageService.getCurrentGame();
-    this.positions = storageService.getGamePositions();
   }
 
   addPlayer(player){
-    let profileModal = this.modalCtrl.create(ChooseGamePositionPage, { player: player });
+    let profileModal = this.modalCtrl.create(ChooseGamePositionPage, { player: player, positions : this.positions });
     profileModal.onDidDismiss(data => {
-      this.loadPlayers();
+      this.loadUsedPlayers();
     });
-
     profileModal.present();
   }
 
-  loadPlayers(){
-    this.players = new Array <Player>();
-    this.storageService.loadPlayers(this.team.id, (snapshot)=>{
-      snapshot.forEach((childSnapshot) => {
-        let player = new Player(childSnapshot.val().name, childSnapshot.val().number);
-        player.id = childSnapshot.key;
-        this.players.push(player);
-      });
 
-      this.storageService.loadCurrentGamePlayers(this.team.id, this.game.id, (snapshot)=>{
+  loadUsedPlayers(){
+    this.storageService.loadCurrentGamePlayers(this.team.id, this.game.id, (snapshot)=>{
         snapshot.forEach((childSnapshot) => {
-          let playerId = childSnapshot.val().player.id;
-          for( let i=this.players.length-1; i>=0; i--) {
-            if( this.players[i].id == playerId) this.players.splice(i,1);
-          }
-        });
+          let player = childSnapshot.val().player;
+          this.usedPlayers.set(player.id, player);
       });
-
+      this.players = this.storageService.getPlayers();
     });
   }
 
-  ngAfterViewInit() {
-    this.loadPlayers();
+  checkUsage(player){
+    return this.usedPlayers.get(player.id) == null;
+  }
+
+  ngOnInit() {
+    this.loadUsedPlayers();
   }
 }
 

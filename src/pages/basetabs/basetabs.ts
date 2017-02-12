@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {Game, Team} from "../../assets/scripts/gametypes";
 import {ListPlayersPage} from "../list-players/list-players";
 import {GamePositionsListPage} from "../game-positions-list/game-positions-list";
 import {StorageService} from "../../providers/storage-service";
+import {Game, Team} from "../../assets/scripts/gametypes";
 
 
 /*

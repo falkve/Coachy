@@ -26,7 +26,5 @@ export class GamePositionsListPage {
 
   deletePosition(gamePosition){
     this.gamePositions.remove(gamePosition);
-    this.navCtrl.pop();
-    this.navCtrl.push(GamePositionsListPage);
   }
 }

@@ -1,7 +1,7 @@
 import {Component, ElementRef} from '@angular/core';
 import {NavController, ViewController} from "ionic-angular";
-import {Player} from "../../assets/scripts/playertypes";
 import {StorageService} from "../../providers/storage-service";
+import {Player} from "../../assets/scripts/gametypes";
 
 
 @Component({
