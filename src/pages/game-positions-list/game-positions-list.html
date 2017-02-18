@@ -11,13 +11,15 @@
   <ion-list>
     <ion-item-sliding *ngFor="let position of gamePositions | async">
       <ion-item>
-        <ion-avatar item-left>
-          <img src="assets/images/position.png">
+        <ion-avatar item-left [ngSwitch]="position.id">
+          <img *ngSwitchCase="'Bench'" src="assets/images/bench.png">
+          <img *ngSwitchCase="'GoalK'" src="assets/images/goalkeeper.png">
+          <img *ngSwitchDefault src="assets/images/position.png">
         </ion-avatar>
         <h2>{{position.name}}</h2>
       </ion-item>
 
-      <ion-item-options icon-left side="right">
+      <ion-item-options icon-left side="right" *ngIf="position.id != 'Bench' && position.id != 'GoalK'">
         <button ion-button color="danger" (click)="deletePosition(position)">
           <ion-icon name="trash"></ion-icon>
           Delete
@@ -26,6 +28,9 @@
     </ion-item-sliding>
   </ion-list>
 </ion-content>
+
+
+
 
 
 <ion-fab bottom right>

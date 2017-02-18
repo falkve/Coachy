@@ -16,6 +16,7 @@ export class AddTeamPage {
 
   constructor(public navCtrl: NavController, public viewCtrl: ViewController, private ele: ElementRef, public storageService : StorageService) {
     this.teams = storageService.getTeams();
+
   }
 
   ngAfterViewInit() {

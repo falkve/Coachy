@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {Util} from "../../assets/scripts/util";
-import {ListGamePlayerStatPage} from "../list-game-player-stat/list-game-player-stat";
 
 
 @Component({
@@ -27,8 +26,10 @@ export class ViewGamePlayerStatPage {
     return d;
   }
 
-  ionViewWillLeave() {
-    this.navCtrl.push(ListGamePlayerStatPage);
+
+
+  backToList(){
+    this.navCtrl.pop();
   }
 
 }

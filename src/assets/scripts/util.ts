@@ -1,5 +1,5 @@
-import {Game, Player} from "./gametypes";
-import {GamePlayer, ActiveGamePosition, Period} from "../../../www/assets/scripts/gametypes";
+import {Game, Player, SummarizedPosition, ActiveGamePosition, GamePlayer, Period} from "./gametypes";
+
 /**
  * Created by vonfalk on 2017-01-04.
  */
@@ -51,14 +51,24 @@ export class Util{
     return newPeriod;
   }
 
+  public static cloneSummarizedPosition(summarizedPosition){
+    let newSummarizedPosition = new SummarizedPosition(summarizedPosition.positionId);
+    newSummarizedPosition.time = summarizedPosition.time;
+    newSummarizedPosition.nof = summarizedPosition.nof;
+    return newSummarizedPosition;
+  }
+
   public static clonePlayer(player){
     let newPlayer = new Player(player.name, player.number);
     newPlayer.id = player.id;
-    if(player.positions != null){
-      newPlayer.positions = new Map<string, number>();
-      for (var key in player.positions) {
-        var value = player.positions[key];
-        newPlayer.positions.set(key, value);
+
+    newPlayer.positionsSummary = {};
+    if(player.positionsSummary != null){
+      for(let key in player.positionsSummary) {
+        if (player.positionsSummary.hasOwnProperty(key)) {
+          var value = player.positionsSummary[key];
+          newPlayer.positionsSummary[key] = this.cloneSummarizedPosition(value);
+        }
       }
     }
     return newPlayer;
@@ -74,7 +84,11 @@ export class Util{
 
   public static cloneGamePlayer(gamePlayer){
     let newPlayer = Util.clonePlayer(gamePlayer.player);
-    let newPosition = Util.cloneActiveGamePosition(gamePlayer.position);
+    let newPosition = null;
+    if(gamePlayer.position != null){
+      newPosition = Util.cloneActiveGamePosition(gamePlayer.position);
+    }
+
     let newGamePlayer = new GamePlayer(newPlayer, newPosition);
     newGamePlayer.id = gamePlayer.id;
 
@@ -88,18 +102,33 @@ export class Util{
     return newGamePlayer;
   }
 
-
-
+  public static addPositionStatistics(player, position){
+    let summarizedPosition = null;
+    if(player.positionsSummary != null){
+      summarizedPosition = player.positionsSummary[position.id];
+    } else {
+      player.positionsSummary = {};
+    }
+    if(summarizedPosition == null){
+      summarizedPosition = new SummarizedPosition(position.id);
+      summarizedPosition.nof = 1;
+      summarizedPosition.time = (position.endTime - position.startTime);
+      player.positionsSummary[position.id] = summarizedPosition;
+    } else {
+      player.positionsSummary[position.id].nof = (player.positionsSummary[position.id].nof+1);
+      player.positionsSummary[position.id].time = (player.positionsSummary[position.id].time + (position.endTime - position.startTime));
+    }
+  }
 
   public static getElapsedTime(from, to){
+    var timeDiff = to - from;
+    return Util.calculateTime(timeDiff);
+  }
 
-      var timeDiff = to - from;
+  public static calculateTime(timeDiff){
 
-    // strip the ms
-      timeDiff /= 1000;
-
-    // get seconds (Original had 'round' which incorrectly counts 0:28, 0:29, 1:30 ... 1:59, 1:0)
-      var seconds = Math.round(timeDiff % 60);
+    timeDiff /= 1000;
+    var seconds = Math.round(timeDiff % 60);
 
     // remove seconds from the date
       timeDiff = Math.floor(timeDiff / 60);
@@ -122,6 +151,15 @@ export class Util{
     return new ElapsedTime(days, hours, minutes, seconds);
   }
 
+
+  public static hasNull(target) {
+  for (var member in target) {
+    if (target[member] == null)
+      return true;
+  }
+  return false;
+}
+
 }
 
 export class ElapsedTime{
@@ -143,3 +181,5 @@ export class ElapsedTime{
     return (this.days!=''?this.days+' d, ':'') +  (this.hours!=''?this.hours+' h, ':'') + (this.minutes!=''?this.minutes+' m, ':'') + this.seconds + ' s';
   }
 }
+
+

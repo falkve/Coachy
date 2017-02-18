@@ -10,19 +10,12 @@
     <ion-item-group *ngFor="let position of positions | async">
     <ion-item button (click)="addPosition(position)" *ngIf="checkUsage(position)">
         <ion-avatar item-left [ngSwitch]="position.id">
+          <img *ngSwitchCase="'Bench'" src="assets/images/bench.png">
+          <img *ngSwitchCase="'GoalK'" src="assets/images/goalkeeper.png">
           <img *ngSwitchDefault src="assets/images/position.png">
         </ion-avatar>
         <h2>{{position.name}}</h2>
     </ion-item>
-    </ion-item-group>
-    <ion-item-group *ngFor="let position of extraPositions">
-      <ion-item button (click)="addPosition(position)" *ngIf="checkUsage(position)">
-        <ion-avatar item-left [ngSwitch]="position.id">
-          <img *ngSwitchCase="'Bench'" src="assets/images/bench.png">
-          <img *ngSwitchCase="'GoalK'" src="assets/images/goalkeeper.png">
-        </ion-avatar>
-        <h2>{{position.name}}</h2>
-      </ion-item>
     </ion-item-group>
   </ion-list>
 </ion-content>

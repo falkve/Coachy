@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import {enableProdMode, Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import {ListTeamsPage} from "../pages/list-teams/list-teams";
@@ -8,6 +8,9 @@ import {GamePositionsListPage} from "../pages/game-positions-list/game-positions
 import {ListGamesPage} from "../pages/list-games/list-games";
 import {ListHistoryGamesPage} from "../pages/list-history-games/list-history-games";
 
+import {} from '@angular/core';
+
+enableProdMode();
 
 
 @Component({

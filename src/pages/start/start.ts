@@ -26,17 +26,14 @@ export class StartPage {
 
     this.storageService.loadPositions(this.team.id, (snapshot)=>{
       this.noPositions = !snapshot.exists();
-
     });
   }
 
   addPositions(){
-    this.navCtrl.pop();
     this.navCtrl.push(GamePositionsListPage);
   }
 
   addPlayers(){
-    this.navCtrl.pop();
     this.navCtrl.push(ListPlayersPage);
   }
 }

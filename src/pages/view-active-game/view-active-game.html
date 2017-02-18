@@ -11,6 +11,14 @@
 
 
 <ion-content>
+  <ion-fab top right>
+    <button ion-fab mini color="light"><ion-icon name="arrow-dropdown"></ion-icon></button>
+    <ion-fab-list>
+      <button ion-fab><ion-icon name="shuffle"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
+
+
   <ion-list>
     <ion-list-header>
       Players on field
@@ -22,8 +30,8 @@
         <ion-avatar item-left *ngIf="gamePlayer.position.id == 'GoalK'">
           <img src="assets/images/goalkeeper.png">
         </ion-avatar>
-        <h2>{{gamePlayer.player.name}} ({{gamePlayer.player.number}})</h2>
-        <h3>{{gamePlayer.position.name}} {{calcTime(gamePlayer.position.startTime)}}</h3>
+        <h2>{{gamePlayer.player.name}} ({{gamePlayer.player.number}}) </h2><ion-badge item-right>{{calcTime(gamePlayer.position.startTime)}}</ion-badge>
+      <h3>{{gamePlayer.position.name}} </h3>
     </ion-item>
   </ion-list>
   <ion-list>
@@ -37,8 +45,8 @@
     <ion-avatar item-left *ngIf="gamePlayer.position.id == 'GoalK'">
       <img src="assets/images/goalkeeper.png">
     </ion-avatar>
-    <h2>{{gamePlayer.player.name}} ({{gamePlayer.player.number}})</h2>
-    <h3>{{gamePlayer.position.name}} {{calcTime(gamePlayer.position.startTime)}}</h3>
+    <h2>{{gamePlayer.player.name}} ({{gamePlayer.player.number}})</h2><ion-badge item-right>{{calcTime(gamePlayer.position.startTime)}}</ion-badge>
+    <h3>{{gamePlayer.position.name}} </h3>
   </ion-item>
   </ion-list>
 
@@ -50,18 +58,14 @@
         <ion-avatar item-left>
           <img src="assets/icon/apple-icon.png">
         </ion-avatar>
-        <h2>{{gamePlayer.player.name}} ({{gamePlayer.player.number}})</h2>
-        <h3>{{gamePlayer.position.name}} {{calcTime(gamePlayer.position.startTime)}}</h3>
+        <h2>{{gamePlayer.player.name}} ({{gamePlayer.player.number}})</h2><ion-badge item-right>{{calcTime(gamePlayer.position.startTime)}}</ion-badge>
+      <h3>{{gamePlayer.position.name}} </h3>
     </ion-item>
   </ion-list>
 </ion-content>
 
-<ion-fab top right>
-  <button ion-fab color="light"><ion-icon name="arrow-dropleft"></ion-icon></button>
-  <ion-fab-list side="top">
-    <button ion-fab ><ion-icon name="add"></ion-icon></button>
-  </ion-fab-list>
-</ion-fab>
+<ion-footer>
 
+</ion-footer>
 
 

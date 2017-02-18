@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ModalController} from 'ionic-angular';
 import { NavController } from 'ionic-angular';
-import {Team, Game, Player, GamePosition, GamePlayer} from "../../assets/scripts/gametypes";
+import {Team, Game, GamePosition, GamePlayer} from "../../assets/scripts/gametypes";
 import {ChooseGamePositionPage} from "../choose-game-position/choose-game-position";
 import {StorageService} from "../../providers/storage-service";
 

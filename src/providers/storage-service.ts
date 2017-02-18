@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import {AngularFire, FirebaseListObservable} from "angularfire2";
-import {Util} from "../../www/assets/scripts/util";
 import * as firebase from "firebase";
 import {Player, GamePosition, Team, Game, GamePlayer} from "../assets/scripts/gametypes";
+import {Util} from "../assets/scripts/util";
 
 /*
   Generated class for the StorageService provider.
@@ -50,7 +50,7 @@ export class StorageService {
 
     this.gamePositions = this.af.database.list('/' + teamId + '/positions',{
       query: {
-        orderByChild: 'name'
+        orderByChild: 'sortOrder'
       }
     });
 
@@ -112,7 +112,20 @@ export class StorageService {
     this.teams.push(team).then(ref => {
       team.id = ref.key;
       this.teams.update(team.id, team);
+
+      let refPos = this.af.database.list('/' + team.id + '/positions');
+
+      let positionGoalK = new GamePosition('Goalkeeper', 'GK');
+      positionGoalK.id = 'GoalK';
+      positionGoalK.sortOrder = "~";
+      refPos.push(positionGoalK)
+
+      let positionBench = new GamePosition('Bench', 'B');
+      positionBench.id = 'Bench';
+      positionBench.sortOrder = "~~";
+      refPos.push(positionBench);
     });
+
   }
 
 
@@ -187,8 +200,35 @@ export class StorageService {
 
   updateCurrentGamePlayer(game, gamePlayer){
     var copy = Util.cloneGamePlayer(gamePlayer);
-    console.log(copy.positions);
     this.getCurrentGamePlayers().update(gamePlayer.id, copy);
+  }
+
+  updatePlayer(player){
+    var copy = Util.clonePlayer(player);
+    firebase.database().ref('/'+this.currentTeam.id+'/players/').child(player.id).once('value').then(data => {
+      for(let key in player.positionsSummary) {
+        var value = player.positionsSummary[key];
+        let sumPos = null;
+        if(data.val().positionsSummary != null){
+          sumPos = data.val().positionsSummary[key];
+        }
+        if(sumPos != null){
+          sumPos.nof = sumPos.nof + value.nof;
+          sumPos.time = sumPos.time + value.time;
+          copy.positionsSummary[key] = sumPos;
+        } else {
+          copy.positionsSummary[key] = value;
+        }
+      }
+
+      for(let key in data.val().positionsSummary) {
+        if(copy.positionsSummary[key] == null){
+          copy.positionsSummary[key] = data.val().positionsSummary[key];
+        }
+      }
+      this.getPlayers().update(copy.id, copy);
+    });
+
   }
 
 

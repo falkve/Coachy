@@ -6,10 +6,12 @@
 
 
 <ion-content>
-  <button *ngIf="currentGame.startTime == 0" ion-button block color="secondary" (click)="startGame()">Start Match</button>
+  <div style="text-align: center">
+    <button *ngIf="showStartButton()" ion-button color="secondary" (click)="startGame()">Start Match</button>
+  </div>
   <ion-grid *ngIf="currentGame.startTime != 0">
     <ion-row ngClass="clock">
-      <ion-col width-100 text-center=""><h2>{{currentTime}}</h2></ion-col>
+      <ion-col width-100 text-center=""><h2> {{currentTime}}</h2></ion-col>
     </ion-row>
     <ion-row *ngIf="currentGame.period != null">
       <ion-col width-100 text-center=""><h2>Period: {{currentGame.period.period}}</h2></ion-col>
@@ -46,7 +48,7 @@
     <ion-row *ngIf="currentGame.endTime==0">
       <ion-col width-50 text-right="" *ngIf="currentGame.period != null">
         <ion-buttons >
-          <button ion-button color="default" round (click)="endPeriod()">End period</button>
+          <button ion-button color="default" round (click)="endPeriod(false)">End period</button>
         </ion-buttons>
       </ion-col>
       <ion-col width-50 text-right="" *ngIf="currentGame.period == null">
@@ -56,7 +58,7 @@
       </ion-col>
       <ion-col width-50 text-left="">
         <ion-buttons>
-          <button ion-button color="danger" round (click)="endGame()">End game</button>
+          <button ion-button color="danger" round (click)="endPeriod(true)">End game</button>
         </ion-buttons>
       </ion-col>
     </ion-row>

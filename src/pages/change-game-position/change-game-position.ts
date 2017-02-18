@@ -45,6 +45,9 @@ export class ChangeGamePositionPage {
       gamePlayer.positions.push(Util.cloneActiveGamePosition(gamePlayer.position));
       this.player.positions.push(Util.cloneActiveGamePosition(this.player.position));
 
+      Util.addPositionStatistics(gamePlayer.player, gamePlayer.position);
+      Util.addPositionStatistics(this.player.player, this.player.position);
+
 
       let newDate = new Date().getTime();
       gamePlayer.position.startTime = newDate;

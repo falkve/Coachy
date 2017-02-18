@@ -48,12 +48,21 @@ export class ListGamesPage {
 
   calcTime(game){
     if(game.period != null){
-      return ', Period:' + game.period.period +' (' + Util.getElapsedTime(game.startTime,this.date.getTime()).getTime() + ')';
-    } else if(game.historyPeriods != null){
-      return ', Period(s) played:' + game.historyPeriods.length + ', PAUS';
+      return Util.getElapsedTime(game.startTime,this.date.getTime()).getTime();
     } else {
       return '';
     }
+  }
+
+  calcPeriod(game){
+    if(game.period != null){
+      return 'Period:' + game.period.period
+    } else if(game.historyPeriods != null){
+      return 'PAUS, Period(s) played:' + game.historyPeriods.length;
+    } else {
+      return '';
+    }
+
   }
   ionViewWillEnter() {
     this.timeIntervalId = setInterval(()=>{

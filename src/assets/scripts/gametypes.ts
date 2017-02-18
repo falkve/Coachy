@@ -27,7 +27,7 @@ export class Player {
   public id : string;
   public name: string;
   public number: number;
-  public positions : Map<string,number>;
+  public positionsSummary = {};
 
   constructor(name: string, number: number) {
     this.name = name;
@@ -35,6 +35,17 @@ export class Player {
   }
 }
 
+
+export class SummarizedPosition{
+  public positionId:string;
+  public nof:number;
+  public time:number;
+
+  constructor(positionId) {
+    this.positionId = positionId;
+  }
+
+}
 
 export class Period{
   public period : number = 0;
@@ -54,8 +65,10 @@ export class GamePosition{
   public name: string;
   public shorty : string
   public id : string;
+  public sortOrder : string;
   constructor(name: string, shorty : string) {
     this.name = name;
+    this.sortOrder = name;
     this.shorty = shorty;
   }
 }

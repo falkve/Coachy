@@ -18,7 +18,7 @@ export class ListHistoryGamePlayerStatPage {
 
 
   showPlayerStat(player){
-    if(player.historyPositions != null){
+    if(player.positions != null){
       this.navCtrl.push(ViewGamePlayerStatPage,{
         player: player
       });

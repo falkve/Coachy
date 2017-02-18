@@ -1,9 +1,9 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef} from '@angular/core';
 import {NavController, NavParams, ViewController} from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import {GamePosition, Team, Game, ActiveGamePosition, GamePlayer, Player} from "../../assets/scripts/gametypes";
 import {StorageService} from "../../providers/storage-service";
-import {Content} from "ionic-angular";
+
 
 
 
@@ -36,16 +36,6 @@ export class ChooseGamePositionPage {
     this.positions = storageService.getGamePositions();
     this.team = storageService.getCurrentTeam();
     this.game = storageService.currentGame;
-
-
-    let positionGoalK = new GamePosition('Goalkeeper', 'GK');
-    positionGoalK.id = 'GoalK';
-    this.extraPositions.push(positionGoalK);
-
-
-    let positionBench = new GamePosition('Bench', 'B');
-    positionBench.id = 'Bench';
-    this.extraPositions.push(positionBench);
   }
 
   checkUsage(position){
@@ -73,7 +63,9 @@ export class ChooseGamePositionPage {
   addPosition(position){
     let activeGamePosition = new ActiveGamePosition(position.name, position.shorty);
     activeGamePosition.id = position.id;
+
     let gamePlayer = new GamePlayer(this.player, activeGamePosition);
+    gamePlayer.player.positionsSummary = null;
     this.storageService.addCurrentGamePlayer(this.game, gamePlayer, ()=>{
       this.close();
     });

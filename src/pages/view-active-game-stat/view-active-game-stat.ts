@@ -4,6 +4,7 @@ import {Util} from "../../assets/scripts/util";
 import {Period, GamePlayer, ActiveGamePosition} from "../../assets/scripts/gametypes";
 import {ViewHistoryGameTabsPage} from "../view-history-game-tabs/view-history-game-tabs";
 import {StorageService} from "../../providers/storage-service";
+import {ListHistoryGamesPage} from "../list-history-games/list-history-games";
 
 
 @Component({
@@ -14,17 +15,16 @@ export class ViewActiveGameStatPage {
 
   currentGame;
   currentTeam;
-  //currentGamePlayers;
 
   timeIntervalId = null;
   timer : string = ' ';
+  isShowStartButton : boolean = false;
 
 
 
   constructor(public app: App, public navCtrl: NavController, public viewCtrl: ViewController, public storageService : StorageService) {
     this.currentGame = storageService.getCurrentGame();
     this.currentTeam = storageService.getCurrentTeam();
-    //this.currentGamePlayers = storageService.getCurrentGamePlayers();
   }
 
   addGoal(who){
@@ -46,6 +46,10 @@ export class ViewActiveGameStatPage {
   endTimer(){
     clearInterval(this.timeIntervalId);
     this.timeIntervalId = null;
+  }
+
+  showStartButton(){
+    return this.currentGame.startTime == 0 && this.isShowStartButton;
   }
 
   private updateTime(){
@@ -87,71 +91,11 @@ export class ViewActiveGameStatPage {
 
   }
 
-  endGame(){
-    if(this.currentGame.period != null){
-      this.endPeriod();
-    }
 
-    let date = new Date().getTime();
-    this.currentGame.endTime = date;
-
-    if(this.currentGame.players == null){
-      this.currentGame.players = new Array<GamePlayer>();
-    }
-
-    this.storageService.loadCurrentGamePlayers(this.currentTeam.id, this.currentGame.id, (snapshot)=>{
-      snapshot.forEach((childSnapshot) => {
-        let gamePlayer = childSnapshot.val();
-        gamePlayer.position = null;
-        this.currentGame.players.push(gamePlayer);
-      });
-    });
-
-    this.storageService.addHistoryGame(this.currentGame, ()=>{
-      this.storageService.setCurrentHistoryGame(this.currentGame);
-
-      this.storageService.removeActiveGame(this.currentGame);
-      const ANIMATION = { animate: true, direction: 'back' };
-      this.app.getRootNav().push(ViewHistoryGameTabsPage, null, ANIMATION)
-
-
-    });
-
-
-  }
-
-  endPeriod(){
+  endPeriod(lastPeriod:boolean){
     this.endTimer();
     let date = new Date().getTime();
     this.currentGame.period.endTime = date;
-
-    this.storageService.loadCurrentGamePlayers(this.currentTeam.id, this.currentGame.id, (snapshot)=>{
-      snapshot.forEach((childSnapshot) => {
-        let gamePlayer = childSnapshot.val();
-        gamePlayer.position.endTime = date;
-        if(gamePlayer.positions == null){
-          gamePlayer.positions = new Array<ActiveGamePosition>();
-        }
-        gamePlayer.positions.push(Util.cloneActiveGamePosition(gamePlayer.position));
-        gamePlayer.position.startTime = null;
-        gamePlayer.position.endTime = null;
-        this.storageService.updateCurrentGamePlayer(this.currentGame, gamePlayer);
-      });
-    });
-
-    /*for( let i=0; i < this.currentGame.players.length; i++) {
-      this.currentGame.players[i].position.endTime = date;
-      if(this.currentGame.players[i].historyPositions == null) {
-        this.currentGame.players[i].historyPositions = new Array<ActiveGamePosition>();
-      }
-
-      this.currentGame.players[i].historyPositions.push(Util.cloneActiveGamePosition(this.currentGame.players[i].position));
-      this.currentGame.players[i].position.startTime = null;
-      this.currentGame.players[i].position.endTime = null;
-    }*/
-
-
-
 
     if(this.currentGame.periods == null){
       this.currentGame.periods = new Array<Period>();
@@ -162,6 +106,50 @@ export class ViewActiveGameStatPage {
       this.currentGame.period = null;
     });
 
+    if(lastPeriod){
+      if(this.currentGame.players == null){
+        this.currentGame.players = new Array<GamePlayer>();
+      }
+      this.currentGame.endTime = date;
+    }
+
+    this.storageService.loadCurrentGamePlayers(this.currentTeam.id, this.currentGame.id, (snapshot)=>{
+      snapshot.forEach((childSnapshot) => {
+        let gamePlayer = childSnapshot.val();
+        gamePlayer.position.endTime = date;
+        if(lastPeriod){
+          Util.addPositionStatistics(gamePlayer.player, gamePlayer.position);
+        }
+        if(gamePlayer.positions == null){
+          gamePlayer.positions = new Array<ActiveGamePosition>();
+        }
+        gamePlayer.positions.push(Util.cloneActiveGamePosition(gamePlayer.position));
+        gamePlayer.position.startTime = null;
+        gamePlayer.position.endTime = null;
+
+        if(lastPeriod){
+          this.currentGame.players.push(gamePlayer);
+          this.storageService.updatePlayer(gamePlayer.player);
+        } else {
+          this.storageService.updateCurrentGamePlayer(this.currentGame, gamePlayer);
+        }
+      });
+
+      if(lastPeriod){
+        this.storageService.addHistoryGame(this.currentGame, ()=>{
+          this.storageService.setCurrentHistoryGame(this.currentGame);
+
+          this.storageService.removeActiveGame(this.currentGame);
+
+          this.app.getRootNav().setRoot(ListHistoryGamesPage)
+
+        });
+      }
+    });
+
+
+
+
   }
 
   startPeriod(){
@@ -169,10 +157,6 @@ export class ViewActiveGameStatPage {
     this.currentGame.period = new Period(this.currentGame.periods.length+1);
     this.currentGame.period.startTime = date;
 
-    /*for( let i=0; i < this.currentGame.players.length; i++) {
-      this.currentGame.players[i].position.startTime = date;
-      this.currentGame.players[i].position.endTime = null;
-    }*/
 
     this.storageService.loadCurrentGamePlayers(this.currentTeam.id, this.currentGame.id, (snapshot)=>{
       snapshot.forEach((childSnapshot) => {
@@ -196,6 +180,14 @@ export class ViewActiveGameStatPage {
       this.updateTime();
       this.startTimer();
     }
+
+
+    this.storageService.loadCurrentGamePlayers(this.currentTeam.id, this.currentGame.id, (snapshot)=>{
+      if(snapshot.exists()){
+        this.isShowStartButton = true;
+      }
+    });
+
   }
 
   ionViewWillLeave(){
