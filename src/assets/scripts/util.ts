@@ -211,9 +211,13 @@ export class Util{
               player = playerB;
               playerToRemoveFromList = playerBKey;
             }
+          } else {
+            player = playerB;
+            playerToRemoveFromList = playerBKey;
           }
       }
       let playerSwitch = new PlayerSwitch(player, playerA)
+      console.log(playerSwitch);
       switchPlayers.push(playerSwitch);
       benchPlayers.splice(playerToRemoveFromList,1);
     }
