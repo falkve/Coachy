@@ -1,0 +1,39 @@
+<!--
+  Generated template for the SwitchPlayerSuggestion page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Switch playersuggestion</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+      <ion-item *ngFor="let playerSwitch of switchPlayers">
+        <ion-avatar item-left>
+          <img src="assets/icon/apple-icon.png">
+        </ion-avatar>
+
+
+        <h2> <span style="color:red">{{playerSwitch.toBench.name}}</span> <-> <span style="color:green">{{playerSwitch.toField.name}}</span> ({{playerSwitch.toBench.position.name}})</h2>
+
+      </ion-item>
+  </ion-list>
+
+</ion-content>
+
+
+<ion-footer>
+
+  <ion-buttons text-center="">
+    <button ion-button round (click)="doSwitchPlayers()">Switch all</button>
+    <button ion-button round (click)="close()">Close</button>
+  </ion-buttons>
+
+</ion-footer>

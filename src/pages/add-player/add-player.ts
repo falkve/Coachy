@@ -30,7 +30,7 @@ export class AddPlayerPage {
   }
 
   ngAfterViewInit() {
-    this.ele.nativeElement.parentElement.setAttribute("class","OVERRIDE_addplayer "+ this.ele.nativeElement.parentElement.getAttribute("class"));
+    //this.ele.nativeElement.parentElement.setAttribute("class","OVERRIDE_addplayer "+ this.ele.nativeElement.parentElement.getAttribute("class"));
   }
 
 }

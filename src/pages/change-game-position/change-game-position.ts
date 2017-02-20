@@ -2,7 +2,6 @@ import {Component, ElementRef} from '@angular/core';
 import {NavController, NavParams, ViewController} from 'ionic-angular';
 import 'rxjs/add/operator/map'
 import {Util} from "../../assets/scripts/util";
-import {ActiveGamePosition} from "../../assets/scripts/gametypes";
 import {StorageService} from "../../providers/storage-service";
 
 /*
@@ -29,51 +28,7 @@ export class ChangeGamePositionPage {
 
 
   changePosition(gamePlayer){
-
-    if(this.currentGame.startTime != null){
-      let endTime = new Date().getTime();
-
-      gamePlayer.position.endTime = endTime;
-      this.player.position.endTime = endTime;
-
-      if(gamePlayer.positions == null){
-        gamePlayer.positions = new Array<ActiveGamePosition>();
-      }
-      if(this.player.positions == null){
-        this.player.positions = new Array<ActiveGamePosition>();
-      }
-      gamePlayer.positions.push(Util.cloneActiveGamePosition(gamePlayer.position));
-      this.player.positions.push(Util.cloneActiveGamePosition(this.player.position));
-
-      Util.addPositionStatistics(gamePlayer.player, gamePlayer.position);
-      Util.addPositionStatistics(this.player.player, this.player.position);
-
-
-      let newDate = new Date().getTime();
-      gamePlayer.position.startTime = newDate;
-      this.player.position.startTime = newDate;
-      gamePlayer.position.endTime = 0;
-      this.player.position.endTime = 0;
-
-    }
-
-    let position = gamePlayer.position;
-    gamePlayer.position = this.player.position;
-    this.player.position = position;
-
-
-    this.storageService.updateCurrentGamePlayer(this.currentGame, gamePlayer);
-    this.storageService.updateCurrentGamePlayer(this.currentGame, this.player);
-
-    /*this.currentGame.players.update(gamePlayer);
-    this.currentGame.players.update(this.player);
-    this.storageService.updateActiveGame(this.currentGame,()=>{
-
-    });*/
-
-
-
-
+    Util.changePlayer(this.storageService, this.currentGame, this.player, gamePlayer)
     this.close();
   }
 

@@ -28,6 +28,7 @@ import {ViewHistoryGamePage} from "../pages/view-history-game/view-history-game"
 import {StorageService} from "../providers/storage-service";
 import {ViewPlayerStatPage} from "../pages/view-player-stat/view-player-stat";
 import {ViewGamePositionStatPage} from "../pages/view-game-position-stat/view-game-position-stat";
+import {SwitchPlayerSuggestionPage} from "../pages/switch-player-suggestion/switch-player-suggestion";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyAZXxk_yvqzmzvljKQTa7zFtCE5pRVZuKQ",
@@ -64,7 +65,8 @@ export const firebaseConfig = {
     ListHistoryGamePlayerStatPage,
     ViewHistoryGamePage,
     ViewPlayerStatPage,
-    ViewGamePositionStatPage
+    ViewGamePositionStatPage,
+    SwitchPlayerSuggestionPage
   ],
   imports: [
     IonicModule.forRoot(CoachAssistantApp),
@@ -98,7 +100,7 @@ export const firebaseConfig = {
     ViewHistoryGamePage,
     ViewPlayerStatPage,
     ViewGamePositionStatPage,
-
+    SwitchPlayerSuggestionPage
   ],
   providers: [StorageService,{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

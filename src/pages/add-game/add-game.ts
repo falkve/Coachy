@@ -18,7 +18,7 @@ export class AddGamePage {
   }
 
   ngAfterViewInit() {
-    this.ele.nativeElement.parentElement.setAttribute("class","OVERRIDE_game "+ this.ele.nativeElement.parentElement.getAttribute("class"));
+    //this.ele.nativeElement.parentElement.setAttribute("class","OVERRIDE_game "+ this.ele.nativeElement.parentElement.getAttribute("class"));
   }
 
   addGame(){

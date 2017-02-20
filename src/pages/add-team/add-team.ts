@@ -20,7 +20,7 @@ export class AddTeamPage {
   }
 
   ngAfterViewInit() {
-    this.ele.nativeElement.parentElement.setAttribute("class","OVERRIDE_team "+ this.ele.nativeElement.parentElement.getAttribute("class"));
+    //this.ele.nativeElement.parentElement.setAttribute("class","OVERRIDE_team "+ this.ele.nativeElement.parentElement.getAttribute("class"));
   }
 
 

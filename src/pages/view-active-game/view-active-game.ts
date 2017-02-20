@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import {ModalController, NavParams, AlertController} from 'ionic-angular';
 import { NavController } from 'ionic-angular';
-import {Team, Game} from "../../assets/scripts/gametypes";
+import {Team, Game, GamePlayer} from "../../assets/scripts/gametypes";
 import {ChangeGamePositionPage} from "../change-game-position/change-game-position";
 import {Util} from "../../assets/scripts/util";
 import {StorageService} from "../../providers/storage-service";
+import {SwitchPlayerSuggestionPage} from "../switch-player-suggestion/switch-player-suggestion";
 
 
 @Component({
@@ -44,6 +45,25 @@ export class ViewActiveGamePage {
 
     profileModal.present();
   }
+
+  suggestSwitch(){
+    let playersArray : Array<GamePlayer> = new Array<GamePlayer>();
+    this.storageService.loadCurrentGamePlayers(this.team.id, this.game.id, (data) => {
+      for(let key in data.val()) {
+        playersArray.push(data.val()[key]);
+      }
+    });
+    let switchPlayers = Util.suggestSwitch(playersArray);
+
+    let profileModal = this.modalCtrl.create(SwitchPlayerSuggestionPage, { switchPlayers: switchPlayers });
+
+    profileModal.onDidDismiss(data => {
+      //this.sortPlayers();
+    });
+
+    profileModal.present();
+  }
+
 
   showConfirm(gamePlayer) {
     let confirm = this.alertCtrl.create({

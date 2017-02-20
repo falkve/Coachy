@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {NavController, ViewController, App} from "ionic-angular";
 import {Util} from "../../assets/scripts/util";
 import {Period, GamePlayer, ActiveGamePosition} from "../../assets/scripts/gametypes";
-import {ViewHistoryGameTabsPage} from "../view-history-game-tabs/view-history-game-tabs";
 import {StorageService} from "../../providers/storage-service";
 import {ListHistoryGamesPage} from "../list-history-games/list-history-games";
 

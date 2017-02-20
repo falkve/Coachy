@@ -21,7 +21,7 @@ export class AddGamePositionPage {
   }
 
   ngAfterViewInit() {
-    this.ele.nativeElement.parentElement.setAttribute("class","OVERRIDE_gameposition "+ this.ele.nativeElement.parentElement.getAttribute("class"));
+    //this.ele.nativeElement.parentElement.setAttribute("class","OVERRIDE_gameposition "+ this.ele.nativeElement.parentElement.getAttribute("class"));
   }
 
   createShortVersion(){

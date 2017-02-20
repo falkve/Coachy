@@ -153,14 +153,116 @@ export class Util{
 
 
   public static hasNull(target) {
-  for (var member in target) {
-    if (target[member] == null)
-      return true;
+    for (var member in target) {
+      if (target[member] == null)
+        return true;
+    }
+    return false;
   }
-  return false;
-}
+
+  public static suggestSwitch(activePlayers : Array<GamePlayer>){
+
+    let switchPlayers = new Array<PlayerSwitch>();
+    let benchPlayers : Array<GamePlayer> = activePlayers.filter( d => {
+      if(d.position.id == 'Bench'){
+        return d;
+      }
+    });
+
+    let fieldPlayers : Array<GamePlayer> = activePlayers.filter( d => {
+      if(d.position.id != 'Bench' && d.position.id != 'GoalK'){
+        return d;
+      }
+    });
+
+
+    let sortedPlayers = fieldPlayers.sort((n1,n2) => {
+      if (n1.position.startTime > n2.position.startTime) {
+        return 1;
+      }
+
+      if (n1.position.startTime < n2.position.startTime) {
+        return -1;
+      }
+      return 0;
+    });
+
+    let playersToSwitch : Array<GamePlayer> = sortedPlayers.splice(0, benchPlayers.length);
+
+    for(let playerAKey in playersToSwitch){
+      let playerA = playersToSwitch[playerAKey];
+      let count : number = 0;
+      let player : GamePlayer = null;
+      let playerToRemoveFromList = null;
+      for(let playerBKey in benchPlayers){
+          let playerB = benchPlayers[playerBKey];
+          if(playerA.player.id == playerB.player.id){
+            continue;
+          }
+          let positionsSummaryMap = playerB.player.positionsSummary;
+          if(positionsSummaryMap != null){
+            let positionsSummary = playerB.player.positionsSummary[playerA.position.id];
+            if(positionsSummary != null){
+              if(player == null || positionsSummary.nof < count){
+                player = playerB;
+                playerToRemoveFromList = playerBKey;
+              }
+            } else {
+              player = playerB;
+              playerToRemoveFromList = playerBKey;
+            }
+          }
+      }
+      let playerSwitch = new PlayerSwitch(player, playerA)
+      switchPlayers.push(playerSwitch);
+      benchPlayers.splice(playerToRemoveFromList,1);
+    }
+    return switchPlayers;
+  }
+
+  public static changePlayer(storageService, currentGame, player, gamePlayer){
+
+    if(currentGame.startTime != null){
+      let endTime = new Date().getTime();
+
+      gamePlayer.position.endTime = endTime;
+      player.position.endTime = endTime;
+
+      if(gamePlayer.positions == null){
+        gamePlayer.positions = new Array<ActiveGamePosition>();
+      }
+      if(player.positions == null){
+        player.positions = new Array<ActiveGamePosition>();
+      }
+      gamePlayer.positions.push(Util.cloneActiveGamePosition(gamePlayer.position));
+      player.positions.push(Util.cloneActiveGamePosition(player.position));
+
+      Util.addPositionStatistics(gamePlayer.player, gamePlayer.position);
+      Util.addPositionStatistics(player.player, player.position);
+
+
+      let newDate = new Date().getTime();
+      gamePlayer.position.startTime = newDate;
+      player.position.startTime = newDate;
+      gamePlayer.position.endTime = 0;
+      player.position.endTime = 0;
+
+    }
+
+    let position = gamePlayer.position;
+    gamePlayer.position = player.position;
+    player.position = position;
+
+
+    storageService.updateCurrentGamePlayer(currentGame, gamePlayer);
+    storageService.updateCurrentGamePlayer(currentGame, player);
+  }
 
 }
+
+
+
+
 
 export class ElapsedTime{
 
@@ -181,5 +283,17 @@ export class ElapsedTime{
     return (this.days!=''?this.days+' d, ':'') +  (this.hours!=''?this.hours+' h, ':'') + (this.minutes!=''?this.minutes+' m, ':'') + this.seconds + ' s';
   }
 }
+
+
+export class PlayerSwitch{
+  toField : GamePlayer;
+  toBench : GamePlayer;
+
+  constructor(toField : GamePlayer, toBench : GamePlayer){
+    this.toBench = toBench;
+    this.toField = toField;
+  }
+}
+
 
 

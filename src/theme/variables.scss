@@ -1,7 +1,5 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/v2/theming/
-$font-path: "../assets/fonts";
-
 @import "ionic.globals";
 
 
@@ -12,7 +10,8 @@ $font-path: "../assets/fonts";
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
-
+//$text-color:        white;
+//$background-color:  #111;
 
 
 // Named Color Variables
@@ -23,13 +22,13 @@ $font-path: "../assets/fonts";
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
 
-$colors: (
+/*$colors: (
   primary:    #387ef5,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222
-);
+);*/
 
 
 // App iOS Variables
@@ -60,7 +59,7 @@ $colors: (
 // so that the above variables are used and Ionic's
 // default are overridden.
 
-@import "ionic.theme.default";
+//@import "ionic.theme.default";
 
 
 // Ionicons
@@ -68,11 +67,49 @@ $colors: (
 // The premium icon font for Ionic. For more info, please see:
 // http://ionicframework.com/docs/v2/ionicons/
 
-@import "ionic.ionicons";
+$ionicons-font-path: "../assets/fonts";
+@import "ionicons";
 
+$red: #e65959;
+$green: #37c772;
+$grey: #999;
+$black: #333;
+$purple: #704fd6;
+$orange: #FEBB00;
+$red-fire: #f15400;
 
-// Fonts
-// --------------------------------------------------
+.clock{
+  background-color: #b2ceff;
+}
 
-@import "roboto";
-@import "noto-sans";
+//$app-background-color: #111;
+//$navbar-color: #222;
+//$secondary-text-color: $grey;
+
+// Navbar
+//$navbar-background-color: black;
+//$navbar-border-color: $navbar-background-color;
+
+// Panel
+//$panel-background-color: #111;
+
+/*.modal-wrapper{
+  position:absolute !important;
+  width:300px !important;
+  height:260px !important;
+  top:0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin: auto !important;
+  border: 2px !important;
+  border-style: solid !important;
+}
+
+.modal .backdrop{
+  display:block !important;
+}
+
+.scroll-bar-indicator {
+  display: none;
+}*/
