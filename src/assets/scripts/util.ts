@@ -217,7 +217,6 @@ export class Util{
           }
       }
       let playerSwitch = new PlayerSwitch(player, playerA)
-      console.log(playerSwitch);
       switchPlayers.push(playerSwitch);
       benchPlayers.splice(playerToRemoveFromList,1);
     }
@@ -226,7 +225,7 @@ export class Util{
 
   public static changePlayer(storageService, currentGame, player, gamePlayer){
 
-    if(currentGame.startTime != null){
+    if(currentGame.startTime != 0){
       let endTime = new Date().getTime();
 
       gamePlayer.position.endTime = endTime;
@@ -260,6 +259,68 @@ export class Util{
 
     storageService.updateCurrentGamePlayer(currentGame, gamePlayer);
     storageService.updateCurrentGamePlayer(currentGame, player);
+  }
+
+  public static getPositionCount(player, positionKey){
+    try{
+      return player.positionsSummary[positionKey].time;
+    } catch(e){
+      return 0;
+    }
+  }
+
+  public static suggestPositions(mapOfPlayers, mapOfPositions){
+    let gamePlayers : Array<GamePlayer> = new Array<GamePlayer>();
+    let nofBenchPlayers = Object.keys(mapOfPlayers).length - (Object.keys(mapOfPositions).length-1);
+
+    //get BenchId
+    let benchId = null;
+    for(let key in mapOfPositions){
+      if(mapOfPositions[key].name == 'Bench'){
+        benchId = key;
+      }
+    }
+
+    //pick becnhplayer first
+    let counter = 0;
+    while(counter < nofBenchPlayers){
+      let player = null;
+      for(let keyPlayer in mapOfPlayers){
+        if(player == null){
+          player = mapOfPlayers[keyPlayer];
+        } else {
+          if(Util.getPositionCount(player,'Bench') > Util.getPositionCount(mapOfPlayers[keyPlayer],'Bench')){
+            player = mapOfPlayers[keyPlayer];
+          }
+        }
+      }
+      counter++;
+      let activeGamePosition = new ActiveGamePosition(mapOfPositions[benchId].name, mapOfPositions[benchId].shorty);
+      activeGamePosition.id = mapOfPositions[benchId].id;
+      gamePlayers.push(new GamePlayer(player,activeGamePosition ));
+      delete mapOfPlayers[player.id];
+    }
+    delete mapOfPositions[benchId];
+
+
+    for(let key in mapOfPositions){
+      let player = null;
+      for(let keyPlayer in mapOfPlayers){
+        if(player == null){
+          player = mapOfPlayers[keyPlayer];
+        } else {
+          if(Util.getPositionCount(player,key) > Util.getPositionCount(mapOfPlayers[keyPlayer],key)){
+            player = mapOfPlayers[keyPlayer];
+          }
+        }
+      }
+      let activeGamePosition = new ActiveGamePosition(mapOfPositions[key].name, mapOfPositions[key].shorty);
+      activeGamePosition.id = mapOfPositions[key].id;
+      gamePlayers.push(new GamePlayer(player, activeGamePosition));
+      delete mapOfPlayers[player.id];
+
+    }
+    return gamePlayers;
   }
 
 }

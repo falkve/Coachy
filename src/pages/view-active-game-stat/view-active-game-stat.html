@@ -14,17 +14,17 @@
       <ion-col width-100 text-center=""><h2> {{currentTime}}</h2></ion-col>
     </ion-row>
     <ion-row *ngIf="currentGame.period != null">
-      <ion-col width-100 text-center=""><h2>Period: {{currentGame.period.period}}</h2></ion-col>
+      <ion-col width-100 text-center=""><h3>Period: {{currentGame.period.period}}</h3></ion-col>
     </ion-row>
     <ion-row *ngIf="currentGame.period == null">
-      <ion-col width-100 text-center=""><h2>PAUS</h2></ion-col>
+      <ion-col width-100 text-center=""><h3>PAUS</h3></ion-col>
     </ion-row>
     <ion-row *ngIf="currentGame.endTime != 0">
-      <ion-col width-100 text-center=""><h2>Game ended</h2></ion-col>
+      <ion-col width-100 text-center=""><h3>Game ended</h3></ion-col>
     </ion-row>
     <ion-row>
-      <ion-col width-50 text-right=""><h2>{{currentTeam.name}} -</h2></ion-col>
-      <ion-col width-50 text-left=""><h2>{{currentGame.opponent}}</h2></ion-col>
+      <ion-col width-50 text-right=""><h4> {{currentTeam.name}} -</h4></ion-col>
+      <ion-col width-50 text-left=""><h4>{{currentGame.opponent}}</h4></ion-col>
     </ion-row>
     <ion-row>
       <ion-col width-50 text-right=""><h1>{{currentGame.goals}}&nbsp;&nbsp;&nbsp;&nbsp; -</h1></ion-col>

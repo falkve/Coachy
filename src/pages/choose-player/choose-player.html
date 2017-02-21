@@ -11,16 +11,32 @@
 
 <ion-content>
   <ion-list>
-      <ion-item-group *ngFor="let player of players | async">
-        <ion-item button (click)="addPlayer(player)" *ngIf="checkUsage(player)">
-          <ion-avatar item-left>
-            <img src="assets/icon/apple-icon.png">
-          </ion-avatar>
-          <h2>{{player.name}} ({{player.number}})</h2>
-        </ion-item>
-      </ion-item-group>
+    <ion-item *ngIf="noPlayerChosen()">
+      <ion-label>Automatic position suggestion</ion-label>
+      <ion-toggle [(ngModel)]="automaticSuggestionEnabled"></ion-toggle>
+    </ion-item>
+    <ion-item-group *ngFor="let player of players | async">
+      <ion-item button (click)="setPlayer(player)" *ngIf="checkUsage(player)">
+        <ion-avatar item-left>
+          <img src="assets/icon/apple-icon.png">
+        </ion-avatar>
+
+        <ion-label>{{player.name}} ({{player.number}})</ion-label>
+        <ion-checkbox item-right value="friends" *ngIf="automaticSuggestionEnabled" (click)="setPlayer(player)"></ion-checkbox>
+      </ion-item>
+    </ion-item-group>
   </ion-list>
+  <ion-buttons text-center="">
+    <button ion-button round (click)="suggestPositions()" *ngIf="automaticSuggestionEnabled">Suggest positions</button>
+  </ion-buttons>
 </ion-content>
+
+
+
+
+
+
+
 
 
 

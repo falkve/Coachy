@@ -47,7 +47,7 @@ export class ListGamesPage {
   }
 
   calcTime(game){
-    if(game.period != null){
+    if(game.period != null && this.date.getTime() > 0){
       return Util.getElapsedTime(game.startTime,this.date.getTime()).getTime();
     } else {
       return '';

@@ -88,7 +88,7 @@ export class ViewActiveGamePage {
   }
 
   calcTime(dateTime){
-    if(dateTime != 0){
+    if(dateTime != 0 && (this.date.getTime()-dateTime > 0) ){
       return Util.getElapsedTime(dateTime,this.date.getTime()).getTime();
     } else {
       return '';

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NavController, LoadingController, ModalController} from 'ionic-angular';
+import {NavController, LoadingController, ModalController, MenuController} from 'ionic-angular';
 import {StartPage} from "../start/start";
 import {AddTeamPage} from "../add-team/add-team";
 import {StorageService} from "../../providers/storage-service";
@@ -12,7 +12,7 @@ export class ListTeamsPage {
 
   teams;
 
-  constructor(public navCtrl: NavController, public storageService : StorageService, public loadingCtrl: LoadingController, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public storageService : StorageService, public loadingCtrl: LoadingController, public modalCtrl: ModalController,public menuController: MenuController) {
     this.teams = storageService.getTeams();
     let loading = this.loadingCtrl.create({
       content: 'Please wait...'
@@ -32,7 +32,7 @@ export class ListTeamsPage {
 
   chooseTeam(team){
     this.storageService.initiate(team);
-    //this.navCtrl.pop();
+    this.menuController.enable(true);
     this.navCtrl.setRoot(StartPage);
   }
 
@@ -40,5 +40,11 @@ export class ListTeamsPage {
     let profileModal = this.modalCtrl.create(AddTeamPage);
     profileModal.present();
   }
+
+
+  ionViewDidEnter(){
+  this. menuController.enable(false);
+  }
+
 
 }

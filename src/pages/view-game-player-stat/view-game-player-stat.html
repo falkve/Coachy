@@ -15,8 +15,13 @@
 <ion-content>
   <ion-list>
     <ion-list-header>
-      <h1>{{gamePlayer.name}}</h1>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ion-icon name="arrow-back" (click)="backToList()">Back to list</ion-icon>
     </ion-list-header>
+    <ion-item button>
+      <ion-avatar item-left>
+      </ion-avatar>
+      <h1>{{gamePlayer.name}}</h1>
+    </ion-item>
     <ion-item button *ngFor="let position of gamePlayer.positions">
         <ion-avatar item-left [ngSwitch]="position.id">
           <img *ngSwitchCase="'Bench'" src="assets/images/bench.png">
@@ -29,9 +34,4 @@
   </ion-list>
 </ion-content>
 <ion-footer>
-
-  <button ion-button icon-left (click)="backToList()">
-    <ion-icon name="backspace"></ion-icon>
-    Back to list
-  </button>
 </ion-footer>

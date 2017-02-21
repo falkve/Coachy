@@ -19,10 +19,6 @@ export class ListHistoryGamesPage {
   historyGames;
   team : Team;
   constructor(public navCtrl: NavController, public storageService : StorageService) {
-    setTimeout(this.init(),300);
-  }
-
-  init(){
     this.historyGames = this.storageService.getHistoryGames();
     this.team = this.storageService.getCurrentTeam();
   }
