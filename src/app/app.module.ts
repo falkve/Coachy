@@ -29,6 +29,7 @@ import {StorageService} from "../providers/storage-service";
 import {ViewPlayerStatPage} from "../pages/view-player-stat/view-player-stat";
 import {ViewGamePositionStatPage} from "../pages/view-game-position-stat/view-game-position-stat";
 import {SwitchPlayerSuggestionPage} from "../pages/switch-player-suggestion/switch-player-suggestion";
+import {AuthenticationService} from "../providers/authentication-service";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyAZXxk_yvqzmzvljKQTa7zFtCE5pRVZuKQ",
@@ -102,6 +103,6 @@ export const firebaseConfig = {
     ViewGamePositionStatPage,
     SwitchPlayerSuggestionPage
   ],
-  providers: [StorageService,{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [StorageService, AuthenticationService,{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}

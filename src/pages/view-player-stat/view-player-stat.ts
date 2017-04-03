@@ -55,10 +55,6 @@ export class ViewPlayerStatPage {
     return Util.calculateTime(milliseconds).getTime();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ViewPlayerStatPage');
-  }
-
 }
 
 export class PlayerPositionHolder{

@@ -7,12 +7,23 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>ViewGamePositionStat</ion-title>
+    <ion-title>View position statistics</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+  <ion-list>
+    <ion-item *ngFor="let stat of statistics">
+      <ion-avatar item-left>
+        <img src="assets/icon/apple-icon.png">
+      </ion-avatar>
+      <h2>{{stat.playerName}}</h2>
+      <h3>Time: <b>{{formatTime(stat.summarizedPlayer.time)}}</b></h3>
+      <h3>Occassions: <b>{{stat.summarizedPlayer.nof}}</b></h3>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

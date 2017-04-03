@@ -1,4 +1,7 @@
-import {Game, Player, SummarizedPosition, ActiveGamePosition, GamePlayer, Period} from "./gametypes";
+import {
+  Game, Player, SummarizedPosition, ActiveGamePosition, GamePlayer, Period, SummarizedPlayer,
+  GamePosition
+} from "./gametypes";
 
 /**
  * Created by vonfalk on 2017-01-04.
@@ -58,6 +61,13 @@ export class Util{
     return newSummarizedPosition;
   }
 
+  public static cloneSummarizedPlayer(summarizedPlayer){
+    let newSummarizedPlayer = new SummarizedPosition(summarizedPlayer.playerId);
+    newSummarizedPlayer.time = summarizedPlayer.time;
+    newSummarizedPlayer.nof = summarizedPlayer.nof;
+    return newSummarizedPlayer;
+  }
+
   public static clonePlayer(player){
     let newPlayer = new Player(player.name, player.number);
     newPlayer.id = player.id;
@@ -82,6 +92,25 @@ export class Util{
     return newPosition;
   }
 
+
+  public static cloneGamePosition(position){
+    let newPosition = new GamePosition(position.name, position.shorty);
+    newPosition.id = position.id;
+    newPosition.sortOrder = position.sortOrder;
+
+    newPosition.playersSummary = {};
+    if(position.playersSummary != null){
+      for(let key in position.playersSummary) {
+        if (position.playersSummary.hasOwnProperty(key)) {
+          var value = position.playersSummary[key];
+          newPosition.playersSummary[key] = this.cloneSummarizedPlayer(value);
+        }
+      }
+    }
+
+    return newPosition;
+  }
+
   public static cloneGamePlayer(gamePlayer){
     let newPlayer = Util.clonePlayer(gamePlayer.player);
     let newPosition = null;
@@ -103,6 +132,7 @@ export class Util{
   }
 
   public static addPositionStatistics(player, position){
+    //Update player positions
     let summarizedPosition = null;
     if(player.positionsSummary != null){
       summarizedPosition = player.positionsSummary[position.id];
@@ -118,6 +148,25 @@ export class Util{
       player.positionsSummary[position.id].nof = (player.positionsSummary[position.id].nof+1);
       player.positionsSummary[position.id].time = (player.positionsSummary[position.id].time + (position.endTime - position.startTime));
     }
+
+
+    //Update position positions
+    let summarizedPlayer = null;
+    if(position.playersSummary != null){
+      summarizedPlayer = position.playersSummary[player.id];
+    } else {
+      position.playersSummary = {};
+    }
+    if(summarizedPlayer == null){
+      summarizedPlayer = new SummarizedPlayer(player.id);
+      summarizedPlayer.nof = 1;
+      summarizedPlayer.time = (position.endTime - position.startTime);
+      position.playersSummary[player.id] = summarizedPlayer;
+    } else {
+      position.playersSummary[player.id].nof = (position.playersSummary[player.id].nof+1);
+      position.playersSummary[player.id].time = (position.playersSummary[player.id].time + (position.endTime - position.startTime));
+    }
+
   }
 
   public static getElapsedTime(from, to){

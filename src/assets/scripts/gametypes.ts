@@ -35,7 +35,6 @@ export class Player {
   }
 }
 
-
 export class SummarizedPosition{
   public positionId:string;
   public nof:number;
@@ -44,7 +43,16 @@ export class SummarizedPosition{
   constructor(positionId) {
     this.positionId = positionId;
   }
+}
 
+export class SummarizedPlayer{
+  public playerId:string;
+  public nof:number;
+  public time:number;
+
+  constructor(playerId) {
+    this.playerId = playerId;
+  }
 }
 
 export class Period{
@@ -66,6 +74,7 @@ export class GamePosition{
   public shorty : string
   public id : string;
   public sortOrder : string;
+  public playersSummary = {};
   constructor(name: string, shorty : string) {
     this.name = name;
     this.sortOrder = name;

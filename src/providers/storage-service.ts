@@ -231,6 +231,34 @@ export class StorageService {
 
   }
 
+  updateGamePosition(position){
+    var copy = Util.cloneGamePosition(position);
+    firebase.database().ref('/'+this.currentTeam.id+'/positions/').child(position.id).once('value').then(data => {
+      for(let key in position.playersSummary) {
+        var value = position.playersSummary[key];
+        let sumPos = null;
+        if(data.val().playersSummary != null){
+          sumPos = data.val().playersSummary[key];
+        }
+        if(sumPos != null){
+          sumPos.nof = sumPos.nof + value.nof;
+          sumPos.time = sumPos.time + value.time;
+          copy.playersSummary[key] = sumPos;
+        } else {
+          copy.playersSummary[key] = value;
+        }
+      }
+
+      for(let key in data.val().positionsSummary) {
+        if(copy.playersSummary[key] == null){
+          copy.playersSummary[key] = data.val().positionsSummary[key];
+        }
+      }
+      this.getGamePositions().update(copy.id, copy);
+    });
+
+  }
+
 
   getCurrentTeam(){
     return this.currentTeam;

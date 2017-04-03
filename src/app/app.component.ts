@@ -27,7 +27,6 @@ export class CoachAssistantApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Login', component: LoginPage },
       { title: 'Players', component: ListPlayersPage },
       { title: 'Positions', component: GamePositionsListPage },
       { title: 'Games', component: ListGamesPage },
